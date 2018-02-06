@@ -23,3 +23,5 @@ It scans the parameters sent to the constructor and initializes containing class
 A class is a match if it has atleast 1 public property of the same name.
 
 It doesn't check for property types and missing property names in the matching class are filled with default values.
+
+*Important* Formatting inserted lines doesn't work, if you know how to resolve this issue please make a new issue on my project
