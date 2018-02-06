@@ -24,4 +24,4 @@ A class is a match if it has atleast 1 public property of the same name.
 
 It doesn't check for property types and missing property names in the matching class are filled with default values.
 
-*Important!* Formatting inserted lines doesn't work, if you know how to resolve this issue please submit a new issue on my repository. And thank you if you do
+*Important!* Formatting inserted lines doesn't work, if you know how to resolve this issue please submit a new issue on my repository, thank you if you do
