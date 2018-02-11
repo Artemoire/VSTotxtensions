@@ -12,12 +12,12 @@ namespace StringLiteralOffsetAdornment
 
         public static SyntaxNode DeepestEnclosingDescendant(this SyntaxNode node, int position)
         {
-            return node.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
+            return node?.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
         }
 
         public static SyntaxNode EnclosingDescendant<ISyntaxNode>(this SyntaxNode node, int position) where ISyntaxNode : SyntaxNode
         {
-            return node.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
+            return node?.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
         }
 
     }

@@ -4,7 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text.Editor;
+using StringLiteralOffsetAdornment.Helpers;
 using StringLiteralOffsetAdornment.Logic;
+using StringLiteralOffsetAdornment.Utils;
 
 namespace StringLiteralOffsetAdornment
 {
@@ -38,11 +40,13 @@ namespace StringLiteralOffsetAdornment
         /// The logic used to calculate offset of
         /// </summary>
         private SyntaxNode _root;
+        public SyntaxNode Root { get { return _root ?? (_root = Document?.GetSyntaxRootAsync().Result); } set { _root = value; } }        
 
         /// <summary>
         /// The document used to call for syntax root after changes
         /// </summary>
-        private readonly Document _document;
+        private readonly Lazier<Document> _document;      
+        public Document Document { get { return _document.Value; } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringLiteralOffsetAdornment"/> class.
@@ -50,11 +54,10 @@ namespace StringLiteralOffsetAdornment
         /// adds the the square in the upper right-hand corner of the TextView via the adornment layer
         /// </summary>
         /// <param name="view">The <see cref="IWpfTextView"/> upon which the adornment will be drawn</param>
-        public StringLiteralOffsetAdornment(IWpfTextView view, Document document)
+        public StringLiteralOffsetAdornment(IWpfTextView view)
         {
             this.view = view ?? throw new ArgumentNullException("view");
-            _document = document;
-            _root = document.GetSyntaxRootAsync().Result;
+            _document = new Lazier<Document>(CodeAnalysisDocumentHelpers.TryGetDocument);
 
             literalOffset = -1;
 
@@ -65,8 +68,8 @@ namespace StringLiteralOffsetAdornment
                 Padding = new Thickness(3, 3, 3, 3),
                 TextAlignment = TextAlignment.Center
             };
-            adornmentLayer = view.GetAdornmentLayer("StringLiteralOffsetAdornment");
 
+            adornmentLayer = view.GetAdornmentLayer("StringLiteralOffsetAdornment");
 
             this.view.Caret.PositionChanged += Caret_PositionChanged;
             this.view.LayoutChanged += this.OnSizeChanged;
@@ -76,7 +79,7 @@ namespace StringLiteralOffsetAdornment
 
         private void TextBuffer_PostChanged(object sender, EventArgs e)
         {
-            _root = _document.GetSyntaxRootAsync().Result;
+            _root = Document?.GetSyntaxRootAsync().Result;
             TextChanged(view.Caret.Position.BufferPosition.Position);
         }
 
@@ -87,7 +90,7 @@ namespace StringLiteralOffsetAdornment
 
         private void TextChanged(int caretAbsoluteOffset)
         {
-            var offset = StringLiteralOffsetLogic.CalcStringLiteralPosition(_root, caretAbsoluteOffset);
+            var offset = StringLiteralOffsetLogic.CalcStringLiteralPosition(Root, caretAbsoluteOffset);
             if (offset != literalOffset)
                 adornment.Text = offset.ToString();
             literalOffset = offset;

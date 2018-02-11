@@ -4,6 +4,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
@@ -38,21 +39,8 @@ namespace StringLiteralOffsetAdornment
         /// <param name="textView">The <see cref="IWpfTextView"/> upon which the adornment should be placed</param>
         public void TextViewCreated(IWpfTextView textView)
         {
-            Microsoft.CodeAnalysis.Document document = null;
-            var dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-            var activeDocument = dte?.ActiveDocument;
-            if (activeDocument != null)
-            {
-                var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-                var workspace = (Microsoft.CodeAnalysis.Workspace)componentModel.GetService<VisualStudioWorkspace>();
-                var documentId = workspace.CurrentSolution.GetDocumentIdsWithFilePath(activeDocument.FullName).FirstOrDefault();
-                if (documentId != null)
-                {
-                    document = workspace.CurrentSolution.GetDocument(documentId);
-                }
-            }
             // The adorment will get wired to the text view events
-            new StringLiteralOffsetAdornment(textView, document);
+            new StringLiteralOffsetAdornment(textView);
         }
     }
 }

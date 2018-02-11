@@ -13,7 +13,7 @@ namespace StringLiteralOffsetAdornment.Logic
         public static int CalcStringLiteralPosition(SyntaxNode root, int caretAbsoluteOffset)
         {
             var enclosing = root.DeepestEnclosingDescendant(caretAbsoluteOffset);
-            if (enclosing.IsKind(SyntaxKind.StringLiteralExpression))
+            if (enclosing != null && enclosing.IsKind(SyntaxKind.StringLiteralExpression))
             {
                 int offset = root.ToFullString().IndexOf('"', enclosing.Span.Start) + 1;
                 return caretAbsoluteOffset - offset;
