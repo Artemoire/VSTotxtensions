@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="TotRefactorings..ad624515-f48e-4a91-a294-41cce3b6b22a" Version="1.0" Language="en-US" Publisher="User"/>
+    <Identity Id="TotRefactorings..9dc8a977-31bd-4bf2-b50c-bd22f119a4e9" Version="1.0" Language="en-US" Publisher="User"/>
     <DisplayName>TotRefactorings</DisplayName>
     <Description xml:space="preserve">This is a sample code refactoring extension for the .NET Compiler Platform ("Roslyn").</Description>
   </Metadata>

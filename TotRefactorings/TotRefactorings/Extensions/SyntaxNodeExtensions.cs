@@ -11,12 +11,12 @@ namespace TotRefactorings.Extensions
     {
         public static SyntaxNode DeepestEnclosingDescendant(this SyntaxNode node, int position)
         {
-            return node?.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
+            return node?.DescendantNodes().Where(x => x.Span.Start <= position && x.Span.End >= position).LastOrDefault();
         }
 
         public static ISyntaxNode EnclosingDescendant<ISyntaxNode>(this SyntaxNode node, int position) where ISyntaxNode : SyntaxNode
         {
-            return node?.DescendantNodes().OfType<ISyntaxNode>().Where(x => x.Span.Start <= position && x.Span.End > position).LastOrDefault();
+            return node?.DescendantNodes().OfType<ISyntaxNode>().Where(x => x.Span.Start <= position && x.Span.End >= position).LastOrDefault();
         }
     }
 }
